@@ -1,0 +1,32 @@
+HTML-
+          <select class="form-control" name="roleId" [(ngModel)]="form.searchParams.roleId" aria-label="ngSelected">
+            <option [ngValue]="" value="undefined">{{' Select Role' | translate }}</option>
+            <option *ngFor="let obj of form.preload.roleList" [value]="obj.key">{{obj.value}}</option>
+          </select>
+      
+TS-
+    
+export class BaseListCtl extends BaseCtl {  
+
+ ngOnInit() {   
+    this.preload();
+ 
+export class BaseCtl implements OnInit {
+
+ preload() {
+    console.log("preload start")
+    var _self = this;
+    this.serviceLocator.httpService.get(_self.api.preload, function (res) {
+ 
+Backend-->
+
+@GetMapping("/preload")
+	public ORSResponse preload() {
+		System.out.println("inside preload vimal");
+		ORSResponse res = new ORSResponse(true);
+		RoleDTO dto = new RoleDTO();
+		dto.setStatus(RoleDTO.ACTIVE);
+		List<DropdownList> list = roleService.search(dto, userContext);
+		res.addResult("roleList", list);
+		return res;
+	}
